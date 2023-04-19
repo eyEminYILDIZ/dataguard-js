@@ -1,20 +1,9 @@
-import { Base64Converter } from "../converting/converters/Base64Converter";
-import { ConverterTypes } from "../converting/enums/ConverterTypes";
+import { createConverterByType, ConverterTypes } from "../converting";
 import { getGuardProxyHandler } from "./ProxyHandler";
-
-const getConverterFromType = (converterType: ConverterTypes) => {
-	switch (converterType) {
-		case ConverterTypes.Base64:
-			return new Base64Converter();
-		default:
-			console.error("Not Handled ConverterTypes Option")
-			return new Base64Converter();
-	}
-}
 
 export const CreateGuardedObject = (sourceObject: any, converterType: ConverterTypes) => {
 	const targetObject = {} as any;
-	const converter = getConverterFromType(converterType);
+	const converter = createConverterByType(converterType);
 	const guardingProxyHandler = getGuardProxyHandler(converter);
 	const guardedObject = new Proxy(targetObject, guardingProxyHandler);
 

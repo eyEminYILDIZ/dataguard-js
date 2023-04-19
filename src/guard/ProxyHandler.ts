@@ -1,4 +1,4 @@
-import { IConverter } from "../converting/interfaces/IConverter";
+import { IConverter } from "../converting";
 
 export const getGuardProxyHandler = (converter: IConverter) => {
 	return {
@@ -9,8 +9,8 @@ export const getGuardProxyHandler = (converter: IConverter) => {
 			return value == undefined ? undefined : converter.output(value);
 		},
 		set(target: any, property: any, value: any): boolean {
-			const encrypted = converter.input(value);
-			target[property] = encrypted;
+			const encoded = converter.input(value);
+			target[property] = encoded;
 			return true;
 		},
 		apply(target: any, thisArg: any, args: any): any {
